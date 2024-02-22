@@ -1,95 +1,80 @@
-import Image from 'next/image'
+"use client"
+
+
 import styles from './page.module.css'
+import {useState} from "react";
+
+function vigenereCipher(message, key, isDecrypt) {
+  if (message.length === 0 || key.length === 0) {
+    return "Вы ничего не ввели";
+  } else {
+    // Создаем алфавит
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    //const alphabet = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧЩЪЫЬЭЮЯ";
+    message = message.toUpperCase();
+    key = key.toUpperCase();
+
+    // Повторяем ключ до длины сообщения
+    const repeatedKey = key.repeat(Math.ceil(message.length / key.length)).slice(0, message.length);
+
+    // Шифрование или расшифрование сообщения
+    let result = "";
+
+    for (let i = 0; i < message.length; i++) {
+      const currentChar = message[i];
+      if (isAlphabetic(currentChar)) {
+        let col;
+        if (isDecrypt) {
+          col = (currentChar.charCodeAt(0) - repeatedKey.charCodeAt(i) + 26) % 26;
+        } else {
+          col = (currentChar.charCodeAt(0) + repeatedKey.charCodeAt(i) - 2 * 'A'.charCodeAt(0)) % 26;
+        }
+        result += alphabet.charAt(col);
+      } else {
+        result += currentChar; // Символы, не являющиеся буквами, остаются без изменений
+      }
+    }
+
+    return result;
+  }
+}
+
+// Функция для проверки, является ли символ буквой
+function isAlphabetic(char) {
+  return /[A-Z]/i.test(char);
+}
 
 export default function Home() {
+  const [message, setMessage] = useState("")
+  const [key, setKey] = useState("")
+  const [result, setResult] = useState("")
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
+        <div className={styles.container}>
+            <input onChange={(event) => {
+                setMessage(event.target.value)
+            }}
+            placeholder={"Введите сообщение"}
             />
-          </a>
+            <input onChange={(event) => {
+                setKey(event.target.value)
+            }}
+            placeholder={"Введите ключ"}
+            />
         </div>
-      </div>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+        <div className={styles.container}>
+            <button className={styles.button} onClick={() => {
+            setResult(vigenereCipher(message, key, false))
+        }}>Encrypt</button>
+            <button className={styles.button} onClick={() => {
+                setResult(vigenereCipher(message, key, true))
+            }}>Decrypt</button>
+        </div>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+        <h3>{result}</h3>
     </main>
   )
 }
