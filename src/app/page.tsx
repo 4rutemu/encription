@@ -10,7 +10,6 @@ function vigenereCipher(message, key, isDecrypt) {
   } else {
     // Создаем алфавит
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    //const alphabet = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧЩЪЫЬЭЮЯ";
     message = message.toUpperCase();
     key = key.toUpperCase();
 
@@ -27,7 +26,7 @@ function vigenereCipher(message, key, isDecrypt) {
         if (isDecrypt) {
           col = (currentChar.charCodeAt(0) - repeatedKey.charCodeAt(i) + 26) % 26;
         } else {
-          col = (currentChar.charCodeAt(0) + repeatedKey.charCodeAt(i) - 2 * 'A'.charCodeAt(0)) % 26;
+          col = (currentChar.charCodeAt(0) + repeatedKey.charCodeAt(i)) % 26;
         }
         result += alphabet.charAt(col);
       } else {
