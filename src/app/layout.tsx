@@ -17,12 +17,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <body className={inter.className}>
       <header>
-        <Link href={"/"}>Шифр Виженера</Link>
-        <span> </span>
-        <Link href={"/perestanovki"}>Шифр перестановки</Link>
+          <Link href={"/"}>Шифр Виженера</Link>
+          <span> </span>
+          <Link href={"/perestanovki"}>Шифр перестановки</Link>
+          <span> </span>
+          <Link href={"/kuznechik"}>Шифр кузнечик</Link>
       </header>
-      <body className={inter.className}>{children}</body>
+        {children}
+      </body>
     </html>
   )
 }
