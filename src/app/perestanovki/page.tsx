@@ -9,9 +9,9 @@ function simplePerestanovka(message) {
         return "Вы ничего не ввели";
     } else {
 
-        let letters = message.toUpperCase().replace(" ", "").split("")
+        let letters = message.toUpperCase().replaceAll(" ", "").split("")
 
-        const numbers = decomposeNumber(message.length)
+        const numbers = decomposeNumber(letters.length)
         console.log(numbers)
 
         const indexToSplit = Math.ceil(numbers.length / 2);
@@ -50,9 +50,9 @@ function simpleDePerestanovka(message) {
         return "Вы ничего не ввели";
     } else {
 
-        let letters = message.toUpperCase().replace(" ", "").split("")
+        let letters = message.toUpperCase().replaceAll(" ", "").split("")
 
-        const numbers = decomposeNumber(message.length)
+        const numbers = decomposeNumber(letters.length)
         console.log(numbers)
 
         const indexToSplit = Math.ceil(numbers.length / 2);

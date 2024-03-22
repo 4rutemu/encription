@@ -19,11 +19,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
       <header>
-          <Link href={"/"}>Шифр Виженера</Link>
+          <button><Link href={"/"}>Шифр Виженера</Link></button>
           <span> </span>
-          <Link href={"/perestanovki"}>Шифр перестановки</Link>
+          <button><Link href={"/perestanovki"}>Шифр перестановки</Link></button>
           <span> </span>
-          <Link href={"/kuznechik"}>Шифр кузнечик</Link>
+          <button><Link href={"/kuznechik"}>Шифр кузнечик</Link></button>
       </header>
         {children}
       </body>
